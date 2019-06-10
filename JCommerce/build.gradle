@@ -1,0 +1,24 @@
+group 'RestForPPr'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework:spring-context:5.0.3.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.6.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '1.5.6.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '1.5.6.RELEASE'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-rest
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '1.5.9.RELEASE'
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.9.RELEASE'
+    // https://mvnrepository.com/artifact/junit/junit
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

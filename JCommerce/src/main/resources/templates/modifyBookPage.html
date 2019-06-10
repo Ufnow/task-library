@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Modyfikacja książk</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"/>
+</head>
+<body style="background-color:powderblue;">
+<div th:replace="fragments/header :: header">...</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1>Modyfikacja książki</h1>
+            <form th:object="${book}" id="bookForm">
+                <div class="form-row">
+                    <div class="col">
+                <input class="form-control" type="text" th:value="${id}" th:field="*{id}" id="bookId" readonly="readonly" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <input type="text" th:field="*{name}" th:value="${name}" id="name" class="form-control" placeholder="name"/>
+                    </div>
+                    <div class="col">
+                        <input type="text" th:field="*{className}"  th:value="${className}" id="className" class="form-control" placeholder="Author name"/>
+                    </div>
+                </div>
+
+                <div class="form-user">
+                    <small><label for="userList">Select users for this book</label></small>
+                    <select multiple="multiple" class="form-control" th:field="*{users}" id="userList">
+                        <option th:each="user : ${userList}" th:text="${user.userName}" th:value="${user.id}">userName</option>
+                    </select>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary">Zatwierdz</button>
+            </form>
+        </div>
+        <div class="col-sm-4">
+            <h1>Menu</h1>
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" href="/modify-book/" aria-selected="true">Modyfikuj książk</a>
+                <a class="nav-link" href="/add-book/" aria-selected="false">Dodaj książke</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"/>
+<script>
+    (function($){
+        function processForm( e ){
+            var userList = [];
+            $("#userList option:selected").each(function(){
+                userList.push({id: parseInt($(this).attr("value"))});
+            });
+            console.log(userList);
+            $.ajax({
+                url: '/api/books/update/' + $('#bookId').val(),
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify( { "id": $('#bookId').val(), "name": $('#name').val(), "className": $('#className').val(), "users": userList  } ),
+                success: function(data){
+                    if (confirm("Book updated!")){
+                        $('#bookForm')[0].reset();
+                        window.location.href = "/modify-book/";
+                    }
+                },
+                error: function(errorThrown){
+                    console.log(errorThrown);
+                }
+            });
+
+            e.preventDefault();
+        }
+
+        $('#bookForm').submit(processForm);
+    })(jQuery);
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Strona główna</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"/>
+</head>
+<body style="background-color:powderblue;">
+<div th:replace="fragments/header :: header">...</div>
+<div class="container">
+<div class="row">
+    <div class="col-sm-8">
+
+        <h1><b>Witaj w bibliotece</b></h1>
+
+    </div>
+    <div class="col-sm-4">
+        <h3>Statystyki</h3>
+        <p th:text="'Ilość książek: ' + ${booksAmount}"></p>
+        <p th:text="'Ilość czytelników: ' + ${usersAmount}"></p>
+    </div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"/>
+</body>
+</html>

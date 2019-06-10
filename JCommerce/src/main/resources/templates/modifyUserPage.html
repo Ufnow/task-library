@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Modyfikuj czytelnika</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"/>
+</head>
+<body style="background-color:powderblue;">
+<div th:replace="fragments/header :: header">...</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1>Modyfikuj czytelnika</h1>
+            <form th:object="${user}" id="userForm">
+                <div class="form-row">
+                    <div class="col">
+                        <input class="form-control" type="text" id="id" th:value="${id}" th:field="*{id}" readonly="readonly" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <input type="text" th:field="*{userName}" th:value="${userName}" class="form-control" placeholder="User name" />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Zatwierdz</button>
+            </form>
+        </div>
+        <div class="col-sm-4">
+            <h1>Menu</h1>
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" href="/modify-user/" aria-selected="true">Edytuj czytelnika</a>
+                <a class="nav-link" href="/add-user/" aria-selected="true">Dodaj czytelnika</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"/>
+<script>
+    (function($){
+        function processForm( e ){
+            $.ajax({
+                url: '/api/users/update/' + $('#id').val(),
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify( { "id": $('#id').val(), "userName": $('#userName').val()} ),
+                success: function(data){
+                    if (confirm("User updated!")){
+                        window.location.href = "/modify-user/";
+                    }
+                },
+                error: function(errorThrown){
+                    console.log(errorThrown);
+                }
+            });
+
+            e.preventDefault();
+        }
+
+        $('#userForm').submit(processForm);
+    })(jQuery);
+</script>
+
+</body>
+</html>

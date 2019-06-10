@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Modyfikacja książek</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"/>
+</head>
+<body style="background-color:powderblue;">
+<div th:replace="fragments/header :: header">...</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1>Modyfikacja książek</h1>
+            <ul class="list-user" >
+                <li th:each="book : ${bookList}" class="list-user-item d-flex justify-content-between align-items-center" >
+                    <p th:text="${book.name} + ' ' + ${book.className}" th:remove="tag"></p>
+                    <div class="float-right">
+                            <button type="button" th:value="${book.id}" class="btn btn-outline-danger deleteBookButton">Delete</button>
+                        <a th:href="@{/modify-book/modify/} + ${book.id}"><button type="button" class="btn btn-outline-success">Modify</button></a>
+                        <span class="badge badge-primary badge-pill" th:text="${#lists.size(book.users)}">countBooks</span>
+                    </div>
+
+                </li>
+            </ul>
+            <div th:if="${totalPages != 0}" th:remove="tag">
+            <div style="margin-top: 5px;">
+                <nav aria-label="...">
+                    <ul class="pagination justify-content-center">
+                    <div th:each="i : ${#numbers.sequence( 0, (totalPages)-1/1)}" th:remove="tag">
+                        <li class="page-item" th:if="${currentPage != i}">
+                            <a class="page-link" th:href="@{/modify-book/} + ${i}" th:text="${i+1}"></a>
+                        </li>
+                        <li class="page-item disabled" th:if="${currentPage == i}">
+                            <a class="page-link" th:href="@{/modify-book/} + ${i}" th:text="${i+1}"></a>
+                        </li>
+                    </div>
+                    </ul>
+                </nav>
+            </div>
+            </div>
+
+        </div>
+        <div class="col-sm-4">
+            <h1>Menu</h1>
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" href="/modify-book/" aria-selected="true">Edytuj książki</a>
+                <a class="nav-link" href="/add-book/" aria-selected="false">Dodaj ksiąki</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"/>
+<script>
+    $('.deleteBookButton').on('click', function() {
+        if (confirm("Are you sure you want to delete this book?")) {
+            $.ajax({
+                url: '/api/books/delete/' + $(this).val(),
+                method: 'DELETE'
+            })
+                .done(function() {
+                    console.log('deleted');
+                    window.location.reload();
+                });
+        }
+    });
+</script>
+</body>
+</html>
