@@ -7,5 +7,7 @@
 3.Aplikacje uruchamiamy klasą "RestService".
 
 
-Aplikacja umożlwia dodanie/usunięcie/modyfikacje użytkownika oraz przypisania mu wybranych książek. Po przypisaniu książki która jest wypożyczona innemu użytkownikowi, automatycznie poprzedni użytkownik nie posiada tej książki jako wypożyczonej. Przechodzi ona na kolejnego użytkownika. 
+Aplikacja umożlwia dodanie/usunięcie/modyfikacje użytkownika oraz przypisania mu wybranych książek. Po przypisaniu książki która jest wypożyczona innemu użytkownikowi, automatycznie poprzedni użytkownik nie posiada tej książki jako wypożyczonej. Przechodzi ona na kolejnego użytkownika. Książki oczywiście również można dodawac/usuwać i edytować.
+
+Aplikacja posiada testy jednostkowe.
 
